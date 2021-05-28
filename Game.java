@@ -1,11 +1,14 @@
 import java.util.*;
 public class Game {
     private ArrayList<Player> players = new ArrayList<Player>();
+    private ArrayList<Player> tiedPlayers = new ArrayList<Player>();
     private int turns = 0;
+    private int currentTurn = 1;
     private Scanner scanner = new Scanner(System.in);
-    public Game() {
+
+    public Game() throws Exception {
         boolean turnLock = false;
-        while (turnLock) {
+        while (!turnLock) {
             System.out.println("Best out of..."); 
             int Turns = scanner.nextInt();
             if (Turns % 2 == 1) {
@@ -22,7 +25,7 @@ public class Game {
         int humanPlayers = scanner.nextInt();
         for (int i = 1; i <= humanPlayers; i++) {
             players.add(new Player());
-            if (i < 3) {
+            if (i < humanPlayers) {
                 System.out.println("Next player!");
             }
         }
@@ -42,7 +45,14 @@ public class Game {
             String botName = "Bot" + i;
             players.add(new Player(botName, false));
         }
-
+        tiedPlayers = players;
+        for (int i = 1; i <= turns; i++) {
+            while (tiedPlayers.size() > 1) {
+                turnSelection();
+                winCheck();
+            }
+            currentTurn++;
+        }
     }
     public int getPlayerCount() {
         return players.size();
@@ -52,10 +62,31 @@ public class Game {
     }
     public void turnSelection() {
         for (Player player : players) {
-            if (player.getHumanStatus()) {
-                player.playerTurn();
+            player.playerTurn();
+        }
+    }
+    public void winCheck() throws Exception {
+        for (int k = 0; k < players.size() - 1; k++) {
+            for (int j = 0; j < players.size(); j++) {
+                String condition = players.get(k).selectionCheck(players.get(j));
+                if (!players.get(k).equals(players.get(j))) {
+                switch (condition) {
+                    case "Win":
+                        System.out.println(players.get(k).getName() + " beats " + players.get(j).getName() + " in round " + currentTurn + "!");
+                        players.get(k).addScore();
+                        break;
+                    case "Loss":
+                        System.out.println(players.get(j).getName() + " beats " + players.get(k).getName() + " in round " + currentTurn + "!");
+                        players.get(j).addScore();
+                        break;
+                    case "Tie":
+                        System.out.println(players.get(j).getName() + " ties with " + players.get(k).getName() + " in round " + currentTurn + "!");
+                        break;
+                    case "Exception":
+                        throw new Exception ("Bad selection check");
+                    }
+                }
             }
-            
         }
     }
 }
