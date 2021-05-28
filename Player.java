@@ -30,7 +30,7 @@ public class Player {
     }
 
 
-    
+
     // setters
     public void setName(String n) {
         name = n;
@@ -42,4 +42,19 @@ public class Player {
         selection = s;
     }
 
+    // make a selection
+    public void playerTurn() {
+        System.out.println("Rock, paper, or scissors?");
+        String playerSelection = scanner.nextLine().toLowerCase().replace(" ", "");
+        // System.out.println(playerSelection);
+        switch (playerSelection) {
+            case "rock":
+                this.setSelection(0);
+            case "paper":
+                this.setSelection(1);
+            case "scissors":
+                this.setSelection(2);
+        }
+    }
+    
 }
