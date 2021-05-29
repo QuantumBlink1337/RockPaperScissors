@@ -130,7 +130,9 @@ public class Player {
         // allows for a bot to make a selection, defined by random numbers
         else {
             int randomSelection = (int) (Math.random() * 2);
-            System.out.println("random selection: " + randomSelection);
+            // For debugging only
+            randomSelection = 0;
+            //System.out.println("random selection: " + randomSelection);
             switch (randomSelection) {
                 case 0:
                     this.setSelection(Selections.ROCK);
