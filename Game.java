@@ -50,29 +50,16 @@ public class Game {
             if (currentTurn == turns) {
                 System.out.println(("TIEBREAKER ROUND!!!"));
             }
-            // System.out.println("Size of tiedplayers before while loop " + tiedPlayers.size());
-            // System.out.println("Size of players before while loop " + players.size());
-            // while (tiedPlayers.size() > 1) {
-            //     turnSelection();
-            //     winCheck(tiedPlayers);
-            //     System.out.println("Size of tiedplayers " + tiedPlayers.size());
-            //     for (int j = tiedPlayers.size() - 1; j >= 0; j--) {
-            //         System.out.println("player condition " + tiedPlayers.get(j).getCondition());
-            //         if (tiedPlayers.get(j).getCondition() != Conditions.TIE); {
-            //             System.out.println("Removed player " + tiedPlayers.get(j).getName());
-            //             tiedPlayers.remove(j);
-            //         }
-            //     }
-            //     System.out.println("Size of tiedplayers after tie check" + tiedPlayers.size());
-            // }
+            System.out.println("Round " + currentTurn);
             gameRun(players);
             for (Player player : players) {
                 //System.out.println(player.getScore());
-                if (player.getScore() >= turns - 1) {
+                if ((player.getScore() >= turns - 1) && (currentTurn != turns) ) {
                     System.out.println(player.getName() + " wins!");
-                    break;
                 }
-               
+                else if (player.getScore() == turns) {
+                    System.out.println(player.getName() + " wins!");
+                }
             }
 
             currentTurn++;
@@ -99,7 +86,7 @@ public class Game {
                         tiedPlayers.remove(j);
                     }
                 }
-                System.out.println("Size of tiedplayers " + tiedPlayers.size());
+                //System.out.println("Size of tiedplayers " + tiedPlayers.size());
                 if (tiedPlayers.size() > 1) {
                     System.out.println(tiedPlayers.size() + " players tied in round " + currentTurn + " , so it will be repeated with the tied players.");
                 }
@@ -108,6 +95,9 @@ public class Game {
     }
     public void turnSelection() {
         for (Player player : tiedPlayers) {
+            if (player.getHumanStatus()) {
+                System.out.println(player.getName() + "'s Turn!");
+            }
             player.playerTurn();
         }
     }
