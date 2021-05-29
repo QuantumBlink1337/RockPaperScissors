@@ -45,12 +45,24 @@ public class Game {
             String botName = "Bot" + i;
             players.add(new Player(botName, false));
         }
-        tiedPlayers = players;
+        // Game excutation
         for (int i = 1; i <= turns; i++) {
-            while (tiedPlayers.size() > 1) {
-                turnSelection();
-                winCheck();
-            }
+            // System.out.println("Size of tiedplayers before while loop " + tiedPlayers.size());
+            // System.out.println("Size of players before while loop " + players.size());
+            // while (tiedPlayers.size() > 1) {
+            //     turnSelection();
+            //     winCheck(tiedPlayers);
+            //     System.out.println("Size of tiedplayers " + tiedPlayers.size());
+            //     for (int j = tiedPlayers.size() - 1; j >= 0; j--) {
+            //         System.out.println("player condition " + tiedPlayers.get(j).getCondition());
+            //         if (tiedPlayers.get(j).getCondition() != Conditions.TIE); {
+            //             System.out.println("Removed player " + tiedPlayers.get(j).getName());
+            //             tiedPlayers.remove(j);
+            //         }
+            //     }
+            //     System.out.println("Size of tiedplayers after tie check" + tiedPlayers.size());
+            // }
+            gameRun(players);
             currentTurn++;
         }
     }
@@ -60,29 +72,53 @@ public class Game {
     public int getTurnCount() {
         return turns;
     }
+    public void gameRun(ArrayList<Player> p) throws Exception {
+            tiedPlayers.addAll(p);
+            System.out.println("Size of tiedplayers before while loop " + tiedPlayers.size());
+            System.out.println("Size of players before while loop " + players.size());
+            while (tiedPlayers.size() > 1) {
+                turnSelection();
+                winCheck(tiedPlayers);
+                System.out.println("Size of tiedplayers " + tiedPlayers.size());
+                for (int j = tiedPlayers.size() - 1; j >= 0; j--) {
+                    System.out.println("player condition " + tiedPlayers.get(j).getCondition());
+                    if (tiedPlayers.get(j).getCondition() != Conditions.TIE); {
+                        System.out.println("Removed player " + tiedPlayers.get(j).getName());
+                        tiedPlayers.remove(j);
+                    }
+                }
+                System.out.println("Size of tiedplayers after tie check" + tiedPlayers.size());
+        }
+    }
     public void turnSelection() {
-        for (Player player : players) {
+        for (Player player : tiedPlayers) {
             player.playerTurn();
         }
     }
-    public void winCheck() throws Exception {
-        for (int k = 0; k < players.size() - 1; k++) {
-            for (int j = 0; j < players.size(); j++) {
-                String condition = players.get(k).selectionCheck(players.get(j));
-                if (!players.get(k).equals(players.get(j))) {
+    public void winCheck(ArrayList<Player> t) throws Exception {
+        ArrayList<Player> unscoredPlayers = new ArrayList<Player>();
+        unscoredPlayers.addAll(t);
+        for (int k = 0; k < unscoredPlayers.size() - 1; k++) {
+            for (int j = 0; j < unscoredPlayers.size(); j++) {
+                Conditions condition = unscoredPlayers.get(k).selectionCheck(unscoredPlayers.get(j));
+                if (!unscoredPlayers.get(k).equals(unscoredPlayers.get(j))) {
                 switch (condition) {
-                    case "Win":
-                        System.out.println(players.get(k).getName() + " beats " + players.get(j).getName() + " in round " + currentTurn + "!");
+                    case WIN:
+                        System.out.println(unscoredPlayers.get(k).getName() + " beats " + unscoredPlayers.get(j).getName() + " in round " + currentTurn + "!");
                         players.get(k).addScore();
+                        unscoredPlayers.get(j).setCondition(Conditions.LOSS);
+                        unscoredPlayers.get(k).setCondition(Conditions.WIN);
                         break;
-                    case "Loss":
-                        System.out.println(players.get(j).getName() + " beats " + players.get(k).getName() + " in round " + currentTurn + "!");
+                    case LOSS:
+                        System.out.println(unscoredPlayers.get(k).getName() + " loses to " + unscoredPlayers.get(j).getName() + " in round " + currentTurn + "!");
                         players.get(j).addScore();
+                        unscoredPlayers.get(j).setCondition(Conditions.WIN);
+                        unscoredPlayers.get(k).setCondition(Conditions.LOSS);
                         break;
-                    case "Tie":
-                        System.out.println(players.get(j).getName() + " ties with " + players.get(k).getName() + " in round " + currentTurn + "!");
+                    case TIE:
+                        System.out.println(unscoredPlayers.get(j).getName() + " ties with " + unscoredPlayers.get(k).getName() + " in round " + currentTurn + "!");
                         break;
-                    case "Exception":
+                    case Exception:
                         throw new Exception ("Bad selection check");
                     }
                 }
