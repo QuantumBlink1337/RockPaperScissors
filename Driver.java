@@ -1,3 +1,9 @@
+/*
+    This is the main method of the program. 
+    It greets the user, creates a Game object within a while loop, and allows for the
+    user to play another game. 
+*/ 
+
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
@@ -5,6 +11,10 @@ public class Driver {
     public static void main (String args[]) throws Exception {
         boolean repeat = false;
         Scanner sc = new Scanner(System.in);
+        /*
+            This will run for as long as the user doesn't terminate the loop by
+            saying no.
+        */
         while (!repeat) {
             System.out.println("Welcome to Super Rock Paper Scissors!");
             TimeUnit.SECONDS.sleep(3);
