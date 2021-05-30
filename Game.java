@@ -1,4 +1,5 @@
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 public class Game {
     private ArrayList<Player> players = new ArrayList<Player>();
     private ArrayList<Player> tiedPlayers = new ArrayList<Player>();
@@ -29,6 +30,7 @@ public class Game {
         int humanPlayers = scanner.nextInt();
         for (int i = 1; i <= humanPlayers; i++) {
             players.add(new Player());
+            TimeUnit.SECONDS.sleep(2);
             if (i < humanPlayers) {
                 System.out.println("Next player!");
             }
@@ -65,7 +67,7 @@ public class Game {
             }
         }
         if (currentTurn == turns+1 && !isWinner) {
-            System.out.println("Tiebreaking calculation invoked");
+            //System.out.println("Tiebreaking calculation invoked");
             winCalculation();
         }
      }
@@ -87,12 +89,18 @@ public class Game {
                 }
         }
     }
-    public void turnSelection() {
+    public void turnSelection() throws InterruptedException {
         for (Player player : tiedPlayers) {
             if (player.getHumanStatus()) {
                 System.out.println(player.getName() + "'s Turn!");
+                player.playerTurn();
+                for (int i = 0; i < 40; i++) {
+                    System.out.println("");
+                }
             }
-            player.playerTurn();
+            else {
+                player.playerTurn();
+            }
         }
     }
     public void winCalculation() {
@@ -124,10 +132,12 @@ public class Game {
         unscoredPlayers.addAll(tiedPlayers);
         while (unscoredPlayers.size() > 0) {
             int randomIndex = (int) (Math.random() * (unscoredPlayers.size() - 1));
+            System.out.println("Random Index at player1 " + randomIndex);
             Player player1 = unscoredPlayers.get(randomIndex);
             unscoredPlayers.remove(randomIndex);
-            randomIndex = (int) (Math.random() * (unscoredPlayers.size() - 1));
             try {
+                randomIndex = (int) (Math.random() * (unscoredPlayers.size() - 1));
+                System.out.println("Random Index at player2 " + randomIndex);
                 Player player2 = unscoredPlayers.get(randomIndex);
                 unscoredPlayers.remove(randomIndex);
                 scoringBracket.add(new PlayerBracket(player1, player2));
