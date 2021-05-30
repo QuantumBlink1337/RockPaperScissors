@@ -1,3 +1,7 @@
+/*
+    This class defines the Player object. 
+*/
+
 import java.util.Scanner;
 public class Player {
     private String name;
@@ -128,3 +132,6 @@ public class Player {
         } 
     }
 
+/*
+    Written by Matt Marlow
+*/ 
