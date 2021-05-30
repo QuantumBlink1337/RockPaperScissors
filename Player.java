@@ -7,11 +7,7 @@ public class Player {
     private boolean isHuman;
     private Conditions condition = Conditions.TIE;
     // stores final selection values
-    public enum Selections {
-        ROCK,
-        PAPER,
-        SCISSORS;
-    }
+    
     // if being constructed by actual user
     public Player() {
         System.out.println("What's your name?");
@@ -71,42 +67,7 @@ public class Player {
     }
 
 
-    public Conditions selectionCheck (Player player) {
-        if (this.selection == Selections.ROCK) {
-            if (player.selection == Selections.PAPER) {
-                return Conditions.LOSS;
-            }
-            if (player.selection == Selections.SCISSORS) {
-                return Conditions.WIN;
-            }
-            else {
-                return Conditions.TIE;
-            }
-        }
-        if (this.selection == Selections.PAPER) {
-          if (player.selection == Selections.SCISSORS) {
-              return Conditions.LOSS;
-          }  
-          if (player.selection == Selections.ROCK) {
-              return Conditions.WIN;
-          }
-          else {
-              return Conditions.TIE;
-          }
-        }
-        if (this.selection == Selections.SCISSORS) {
-            if (player.selection == Selections.ROCK) {
-                return Conditions.LOSS;
-            }
-            if (player.selection == Selections.PAPER) {
-                return Conditions.WIN;
-            }
-            else {
-                return Conditions.TIE;
-            }
-        }
-        return Conditions.Exception;
-    }
+   
     // make a selection
     /*
         Post-Condition: selection variable is initialized for a player object
@@ -131,7 +92,6 @@ public class Player {
         else {
             int randomSelection = (int) (Math.random() * 2);
             // For debugging only
-            randomSelection = 0;
             //System.out.println("random selection: " + randomSelection);
             switch (randomSelection) {
                 case 0:
