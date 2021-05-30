@@ -4,25 +4,38 @@ public class Player {
     private Selections selection;
     private int score = 0;
     private Scanner scanner = new Scanner(System.in);
+
+
+    /*
+        This boolean just exists so that the actual turn process is given to a human player but not a bot, as well as
+        some other flavor text. 
+    */
     private boolean isHuman;
-    private Conditions condition = Conditions.TIE;
-    // stores final selection values
-    
-    // if being constructed by actual user
+    /*
+        This initalizes all players to be tied. This allows for the Game object's tiedPlayers
+        list to initially include all players for allowing turns and scoring.
+    */ 
+    private Conditions condition = Conditions.TIE; 
+
+    // Use this constructor if you're making a human player. 
     public Player() {
         System.out.println("What's your name?");
         name = scanner.nextLine();
-        isHuman = true;
+        isHuman = true; // Assumes that this player is a human if you're using this constructor
     }
 
-    // if being constructed by game object (for bot)
+    /* Use this constructor if making a bot player.
+       *Technically* you can make human players with it, but the parameters are mostly 
+       so a loop can generate names for a bot player. See Game's constructor. 
+    */
     public Player(String Name, boolean humanity) {
-        name = Name;
-        isHuman = humanity;
+        name = Name; // Allows for generated name insertion
+        isHuman = humanity; // Since this can technically be used for humans, isHuman is left to the method call
     }
 
 
-    // getters
+    // Getter methods
+
     public String getName() {
         return name;
     }
@@ -58,26 +71,34 @@ public class Player {
         condition = c;
     }
 
+    /*
+        A player is the same as another player if they have the same name.
+        This probably won't be helpful if you have two players named the same thing but have different reference values.
+        Currently unused in the program.
 
+        Precondition: Both player objects are initialized.
+        Postcondition: Returns true if they have the same name, and returns false if they don't. 
+    */ 
     public boolean equals (Player player) {
         if (this.name.equals(player.name)) {
             return true;
         }
         return false;
     }
-
-
-   
-    // make a selection
     /*
-        Post-Condition: selection variable is initialized for a player object
+        This method plays a turn for a player. If invoked on a human player, it
+        prompts them to make a selection. If they're a bot player, their selection is determined 
+        by a random number generator. 
+
+        Precondition: Player object is initialized. 
+        Postcondition: Selection variable is initalized for the Player object. 
     */
     public void playerTurn() {
         if (this.getHumanStatus()) {
             System.out.println("Rock, paper, or scissors?");
-            String playerSelection = scanner.nextLine().toLowerCase().replace(" ", "");
+            String playerSelection = scanner.nextLine().toLowerCase().replace(" ", ""); 
             switch (playerSelection) {
-                case "rock":
+                case "rock": // To do - allow for "r", "p", "s"
                     this.setSelection(Selections.ROCK);
                     break;
                 case "paper":
@@ -88,7 +109,6 @@ public class Player {
                     break;
             }
         }
-        // allows for a bot to make a selection, defined by random numbers
         else {
             int randomSelection = (int) (Math.random() * 2);
             // For debugging only
