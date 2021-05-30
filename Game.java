@@ -127,12 +127,12 @@ public class Game {
             Player player1 = unscoredPlayers.get(randomIndex);
             unscoredPlayers.remove(randomIndex);
             randomIndex = (int) (Math.random() * (unscoredPlayers.size() - 1));
-            Player player2 = unscoredPlayers.get(randomIndex);
-            unscoredPlayers.remove(randomIndex);
-            if (player2 != null) {
+            try {
+                Player player2 = unscoredPlayers.get(randomIndex);
+                unscoredPlayers.remove(randomIndex);
                 scoringBracket.add(new PlayerBracket(player1, player2));
             }
-            else {
+            catch (Exception e) {
                 scoringBracket.add(new PlayerBracket(player1));
             }
         }
