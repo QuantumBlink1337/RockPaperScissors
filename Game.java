@@ -46,10 +46,10 @@ public class Game {
         */
         while (!turnLock) {
             System.out.println("How many rounds do you want to play? Enter an odd number."); 
-            int rounds = scanner.nextInt();
+            int i = scanner.nextInt();
             if (rounds % 2 == 1) {
                 turnLock = true;
-                rounds = rounds;
+                rounds = i;
 
             }
             else {
