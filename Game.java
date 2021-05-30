@@ -139,6 +139,9 @@ public class Game {
         evalutates the tiedPlayers list with a for loop and removes players from it 
         that have their condition to something other than TIE. 
         This process continues until there are no remaining Players in tiedPlayers. 
+
+        Precondition: p is an ArrayList<Player> that has been initialized.
+        Postcondition: tiedPlayers is empty. 
     */
     public void gameRun(ArrayList<Player> p) throws Exception {
             tiedPlayers.addAll(p);
@@ -153,10 +156,13 @@ public class Game {
         }
     }
     /*
-        This method allows for both human and bot players to make their turn. 
+        This method iterates through the tiedPlayer list to allow Players inside to make their turn. 
         It checks all players in tiedPlayers and calls .playerTurn on them from the Player class.
-        If they're a human player, they have some text prompting them to make a selection as well as
+        If they're a human Player, they have some text prompting them to make a selection as well as
         print statements to block out the console log to prevent screen peeking.  
+
+        Precondition: tiedPlayers is initialized.
+        Postcondition: All Players in tiedPlayers have their selection initialized.
     */
     public void roundselection() throws InterruptedException {
         for (Player player : tiedPlayers) {
@@ -172,9 +178,17 @@ public class Game {
             }
         }
     }
+    /* 
+        This method determines what players have reached the threshold of points that equals a win (multiple players could win, if there are enough players)
+        It adds them to winList and prints their name(s) and sets isWinner to true, which exits the Game constructor back to the main method. 
+        Otherwise, it adds players to tieBreakerList that have another threshold of points equaling a tie. 
+
+        Precondition: players is initialized
+        Postcondition: winList or tieBreakerList is populated, isWinner or isTieBreaker is set to true which controls game flow. 
+    */ 
     public void winCalculation() {
         for (Player player : players) {
-            if (player.getScore() == (rounds - 1)) {
+            if (player.getScore() == (rounds - 1)) { // In a best of 3 match, having two wins would mean you won the game. 
                 winList.add(player);
             }
         }
@@ -188,15 +202,27 @@ public class Game {
         else {
             for (Player player : players) {
 
-                if (player.getScore() == (rounds - 2)) {
+                if (player.getScore() == (rounds - 2)) { // In a best of 3 match, having one point rovided no one else had two would be a tie for that player.
                     tieBreakerList.add(player);
                 }
             }
             isTieBreaker = true;
         }
     }
+
+    /*
+        This method evalutates which pairing of players won, lost, or tied. 
+        It first initializes two lists - unscoredPlayers stores which players have not been added to a scoring bracket, while scoringBracket stores PlayerBracket objects.
+        Then, while unscoredPlayer still has players inside, it creates a PlayerBracket object with two Players whose index in unscoredPlayers is randomly determined. 
+        (Unless there is an odd number of players, in which case the odd player is added to a PlayerBracket by themselves (see PlayerBracket))
+        Then, using the PlayerBrackets stored inside scoringBracket, a for loop is run for each bracket. It initializes and defines a Conditions enumerator to be whatever .selectionCheck returns.
+        Based on the condition, it displays a message to the user, gives points for the winning Player, and sets Player conditions accordingly. 
+
+        Precondition: tiedPlayers is initialized
+        Postcondition: All Players have their condition set
+    */
     public void scorer() throws Exception {
-        ArrayList<Player> unscoredPlayers = new ArrayList<Player>();
+        ArrayList<Player> unscoredPlayers = new ArrayList<Player>(); 
         ArrayList<PlayerBracket> scoringBracket = new ArrayList<PlayerBracket>();
         unscoredPlayers.addAll(tiedPlayers);
         while (unscoredPlayers.size() > 0) {
@@ -243,6 +269,9 @@ public class Game {
                         throw new Exception("Bad selection check at class PlayerBracket");
                 }
             }
+            /* 
+                If a player is by themselves in their PlayerBracket, treat it as a win and give them the point
+            */ 
             else if (scoringBracket.get(i).getBracket().size() == 1) {
                 System.out.println(scoringBracket.get(i).getPlayer1().getName() + " has a bye in round " + currentRound + ".");
                 scoringBracket.get(i).getPlayer1().addScore();
