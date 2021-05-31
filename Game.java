@@ -47,7 +47,7 @@ public class Game {
         while (!turnLock) {
             System.out.println("How many rounds do you want to play? Enter an odd number."); 
             int i = scanner.nextInt();
-            if (rounds % 2 == 1) {
+            if (i % 2 == 1) {
                 turnLock = true;
                 rounds = i;
 
@@ -69,9 +69,6 @@ public class Game {
             }
         }
         boolean playerLock = false;
-
-
-
         int botPlayers = 0;
         while (!playerLock) {
             System.out.println("How many bots do you want in your game?");
@@ -94,13 +91,25 @@ public class Game {
             String botName = "Bot" + i;
             players.add(new Player(botName, false)); // bot constructor for Player
         }
-        /*
-            This is the main game execution. 
+    }
+
+    /*
+        Generic getter methods
+    */
+    public int getPlayerCount() {
+        return players.size();
+    }
+    public int getRoundCount() {
+        return rounds;
+    }
+    /*
+            This method is pretty much the main game execution.
             Runs a for loop for as many rounds the user specified.
             It double checks to see if the current round is equal to total rounds and if so, immediately begins win calculation (short circuiting game running)
             Otherwise, provided that there's no tie and no winner found, the game is actually played with the total amount of players. 
             If there is a tie, then it runs the game with tieBreakerList built in winCalculation.
         */
+    public void roundHandler() throws Exception {
         for (currentRound = 1; currentRound <= rounds; currentRound++) {
             if (currentRound == rounds) {
                 winCalculation();
@@ -122,16 +131,6 @@ public class Game {
             //System.out.println("Tiebreaking calculation invoked");
             winCalculation();
         }
-    }
-
-    /*
-        Generic getter methods
-    */
-    public int getPlayerCount() {
-        return players.size();
-    }
-    public int getRoundCount() {
-        return rounds;
     }
     /*
         This method builds a list of tiedPlayers from the original players list,

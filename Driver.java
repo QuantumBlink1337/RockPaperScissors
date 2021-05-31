@@ -19,6 +19,7 @@ public class Driver {
             System.out.println("Welcome to Super Rock Paper Scissors!");
             TimeUnit.SECONDS.sleep(3);
             Game game = new Game();
+            game.roundHandler();
             TimeUnit.SECONDS.sleep(5);
             System.out.println("Play again? Yes or no.");
             String choice = sc.nextLine().toLowerCase().replace(" ", "");
