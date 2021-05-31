@@ -7,6 +7,8 @@ import java.util.concurrent.TimeUnit;
 public class Game {
     /*
         All lists are initialized but empty to begin with. They'll be built over the course of the program. 
+    */
+
     /*
         players will be built by placing all Player objects created inside it. It should never be changed and
         acts as a reference for tiedPlayers, winList, and tieBreakerList to be built from.
@@ -272,8 +274,6 @@ public class Game {
                         scoringBracket.get(i).getPlayer2().setCondition(Conditions.TIE);
                         //System.out.println("Loop execution: " + i);
                         break;
-                    case Exception:
-                        throw new Exception("Bad selection check at class PlayerBracket");
                 }
             }
             /* 
