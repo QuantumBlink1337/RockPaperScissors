@@ -111,7 +111,10 @@ public class Game {
         */
     public void roundHandler() throws Exception {
         for (currentRound = 1; currentRound <= rounds; currentRound++) {
-            if (currentRound == rounds) {
+            if (currentRound == rounds && rounds != 1) {
+                winCalculation();
+            }
+            else if (currentRound == rounds+1) {
                 winCalculation();
             }
             if (!isWinner && !isTieBreaker) {
