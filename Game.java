@@ -152,8 +152,8 @@ public class Game {
                         tiedPlayers.remove(j);
                     }
                 }
+            }
         }
-    }
     /*
         This method iterates through the tiedPlayer list to allow Players inside to make their turn. 
         It checks all players in tiedPlayers and calls .playerTurn on them from the Player class.
@@ -225,15 +225,15 @@ public class Game {
         ArrayList<PlayerBracket> scoringBracket = new ArrayList<PlayerBracket>();
         unscoredPlayers.addAll(tiedPlayers);
         while (unscoredPlayers.size() > 0) {
-            int randomIndex = (int) (Math.random() * (unscoredPlayers.size() - 1));
-            System.out.println("Random Index at player1 " + randomIndex);
-            Player player1 = unscoredPlayers.get(randomIndex);
-            unscoredPlayers.remove(randomIndex);
+            //int randomIndex = (int) (Math.random() * (unscoredPlayers.size() - 1));
+            //System.out.println("Unscored Players: " + unscoredPlayers.size());
+            int randomIndex = new Random().nextInt(unscoredPlayers.size());
+            //System.out.println("Random Index at player1 " + randomIndex);
+            Player player1 = unscoredPlayers.remove(randomIndex);
             try {
-                randomIndex = (int) (Math.random() * (unscoredPlayers.size() - 1));
-                System.out.println("Random Index at player2 " + randomIndex);
-                Player player2 = unscoredPlayers.get(randomIndex);
-                unscoredPlayers.remove(randomIndex);
+                randomIndex = new Random().nextInt(unscoredPlayers.size());
+                //System.out.println("Random Index at player2 " + randomIndex);
+                Player player2 = unscoredPlayers.remove(randomIndex);
                 scoringBracket.add(new PlayerBracket(player1, player2));
             }
             catch (Exception e) {
