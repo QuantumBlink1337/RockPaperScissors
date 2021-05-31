@@ -187,8 +187,13 @@ public class Game {
     */ 
     public void winCalculation() {
         for (Player player : players) {
-            if (player.getScore() == (rounds - 1)) { // In a best of 3 match, having two wins would mean you won the game. 
+            if (player.getScore() == (rounds - 1) && !(rounds == 1)) { // In a best of 3 match, having two wins would mean you won the game. 
                 winList.add(player);
+            }
+            else if (rounds == 1) {
+                if (player.getScore() == 1) {
+                    winList.add(player);
+                }
             }
         }
         if (winList.size() > 0) {

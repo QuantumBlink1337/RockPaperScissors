@@ -27,7 +27,6 @@ public class Driver {
                 System.out.println("Thanks for playing!");
                 repeat = true;
             }
-            
         }
         sc.close();
     }
