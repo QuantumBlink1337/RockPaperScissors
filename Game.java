@@ -274,6 +274,8 @@ public class Game {
                         scoringBracket.get(i).getPlayer2().setCondition(Conditions.TIE);
                         //System.out.println("Loop execution: " + i);
                         break;
+                    case IllegalPlayerBracketCompareException:
+                        throw new Exception("selectionCheck cannot be run on a PlayerBracket with one Player object");
                 }
             }
             /* 

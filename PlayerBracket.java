@@ -78,6 +78,6 @@ public class PlayerBracket {
                 return Conditions.TIE;
             }
         }
-        return Conditions.Exception;
+        return Conditions.IllegalPlayerBracketCompareException;
     }
 }
