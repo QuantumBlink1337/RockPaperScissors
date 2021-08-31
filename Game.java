@@ -83,7 +83,7 @@ public class Game {
                 playerLock = true;
             }
             else {
-                System.out.println("A game has to have more than 1 person!"); 
+                System.out.println("A game has to have more than 1 player!"); 
             }
         }
         /*
